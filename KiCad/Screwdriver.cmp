@@ -1,0 +1,45 @@
+Cmp-Mod V01 Created by CvPCB (2011-07-08 BZR 3044)-stable date = 8/8/2011 7:28:49 PM
+
+BeginCmp
+TimeStamp = /4E4097D0;
+Reference = C1;
+ValeurCmp = C;
+IdModule  = C1;
+EndCmp
+
+BeginCmp
+TimeStamp = /4E4098E6;
+Reference = D1;
+ValeurCmp = LED;
+IdModule  = LED-5MM;
+EndCmp
+
+BeginCmp
+TimeStamp = /4E409247;
+Reference = IC1;
+ValeurCmp = ATTINY13-P;
+IdModule  = DIP-8__300;
+EndCmp
+
+BeginCmp
+TimeStamp = /4E40974D;
+Reference = R1;
+ValeurCmp = 10K;
+IdModule  = R1;
+EndCmp
+
+BeginCmp
+TimeStamp = /4E409832;
+Reference = SP1;
+ValeurCmp = SPEAKER;
+IdModule  = C1;
+EndCmp
+
+BeginCmp
+TimeStamp = /4E409695;
+Reference = SW1;
+ValeurCmp = SW_PUSH;
+IdModule  = C1;
+EndCmp
+
+EndListe

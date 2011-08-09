@@ -1,0 +1,58 @@
+# EESchema Netlist Version 1.1 created  8/8/2011 7:28:49 PM
+(
+ ( /4E4097D0 C1 C1 C
+  ( 1 N-000002 )
+  ( 2 GND )
+ )
+ ( /4E4098E6 LED-5MM D1 LED
+  ( 1 N-000004 )
+  ( 2 GND )
+ )
+ ( /4E409247 DIP-8__300 IC1 ATTINY13-P
+  ( 1 N-000004 )
+  ( 2 ? )
+  ( 3 ? )
+  ( 4 GND )
+  ( 5 ? )
+  ( 6 N-000008 )
+  ( 7 N-000002 )
+  ( 8 N-000009 )
+ )
+ ( /4E40974D R1 R1 10K
+  ( 1 N-000002 )
+  ( 2 N-000008 )
+ )
+ ( /4E409832 C1 SP1 SPEAKER
+  ( 1 N-000002 )
+  ( 2 GND )
+ )
+ ( /4E409695 C1 SW1 SW_PUSH
+  ( 1 N-000009 )
+  ( 2 +3.3V )
+ )
+)
+*
+{ Allowed footprints by component:
+$component C1
+ SM*
+ C?
+ C1-1
+$endlist
+$component D1
+ LED-3MM
+ LED-5MM
+ LED-10MM
+ LED-0603
+ LED-0805
+ LED-1206
+ LEDV
+$endlist
+$component R1
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$endfootprintlist
+}
