@@ -1,0 +1,133 @@
+
+Screwdriver.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         00000078  00000000  00000000  00000074  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .bss          00000001  00800060  00800060  000000ec  2**0
+                  ALLOC
+  2 .debug_aranges 00000020  00000000  00000000  000000ec  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  3 .debug_pubnames 00000034  00000000  00000000  0000010c  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  4 .debug_info   000000c6  00000000  00000000  00000140  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .debug_abbrev 00000096  00000000  00000000  00000206  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_line   000000b2  00000000  00000000  0000029c  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_frame  00000030  00000000  00000000  00000350  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_str    000000a2  00000000  00000000  00000380  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	09 c0       	rjmp	.+18     	; 0x14 <__ctors_end>
+   2:	16 c0       	rjmp	.+44     	; 0x30 <__bad_interrupt>
+   4:	15 c0       	rjmp	.+42     	; 0x30 <__bad_interrupt>
+   6:	14 c0       	rjmp	.+40     	; 0x30 <__bad_interrupt>
+   8:	13 c0       	rjmp	.+38     	; 0x30 <__bad_interrupt>
+   a:	12 c0       	rjmp	.+36     	; 0x30 <__bad_interrupt>
+   c:	12 c0       	rjmp	.+36     	; 0x32 <__vector_6>
+   e:	10 c0       	rjmp	.+32     	; 0x30 <__bad_interrupt>
+  10:	0f c0       	rjmp	.+30     	; 0x30 <__bad_interrupt>
+  12:	0e c0       	rjmp	.+28     	; 0x30 <__bad_interrupt>
+
+00000014 <__ctors_end>:
+  14:	11 24       	eor	r1, r1
+  16:	1f be       	out	0x3f, r1	; 63
+  18:	cf e9       	ldi	r28, 0x9F	; 159
+  1a:	cd bf       	out	0x3d, r28	; 61
+
+0000001c <__do_clear_bss>:
+  1c:	10 e0       	ldi	r17, 0x00	; 0
+  1e:	a0 e6       	ldi	r26, 0x60	; 96
+  20:	b0 e0       	ldi	r27, 0x00	; 0
+  22:	01 c0       	rjmp	.+2      	; 0x26 <.do_clear_bss_start>
+
+00000024 <.do_clear_bss_loop>:
+  24:	1d 92       	st	X+, r1
+
+00000026 <.do_clear_bss_start>:
+  26:	a1 36       	cpi	r26, 0x61	; 97
+  28:	b1 07       	cpc	r27, r17
+  2a:	e1 f7       	brne	.-8      	; 0x24 <.do_clear_bss_loop>
+  2c:	14 d0       	rcall	.+40     	; 0x56 <main>
+  2e:	22 c0       	rjmp	.+68     	; 0x74 <_exit>
+
+00000030 <__bad_interrupt>:
+  30:	e7 cf       	rjmp	.-50     	; 0x0 <__vectors>
+
+00000032 <__vector_6>:
+#define BOOL8 0x80 
+
+unsigned char flags; 
+
+//timer 0 match interrupt
+ISR(TIM0_COMPA_vect){
+  32:	1f 92       	push	r1
+  34:	0f 92       	push	r0
+  36:	0f b6       	in	r0, 0x3f	; 63
+  38:	0f 92       	push	r0
+  3a:	11 24       	eor	r1, r1
+  3c:	8f 93       	push	r24
+  3e:	9f 93       	push	r25
+	PORTB ^= _BV(PB4);
+  40:	88 b3       	in	r24, 0x18	; 24
+  42:	90 e1       	ldi	r25, 0x10	; 16
+  44:	89 27       	eor	r24, r25
+  46:	88 bb       	out	0x18, r24	; 24
+	//flags |= TRANSMIT;
+}
+  48:	9f 91       	pop	r25
+  4a:	8f 91       	pop	r24
+  4c:	0f 90       	pop	r0
+  4e:	0f be       	out	0x3f, r0	; 63
+  50:	0f 90       	pop	r0
+  52:	1f 90       	pop	r1
+  54:	18 95       	reti
+
+00000056 <main>:
+
+int main(){
+	/* INIT CODE */
+	cli();
+  56:	f8 94       	cli
+
+	/*Timer 0 init
+	* output should change every 3 ms
+	* that's 112.5 timer cycles at clk/256
+	*/
+  	TCCR0A = _BV(WGM01); 	//Timer 0 set to CTC mode
+  58:	82 e0       	ldi	r24, 0x02	; 2
+  5a:	8f bd       	out	0x2f, r24	; 47
+  	TCCR0B = _BV(CS01) | _BV(CS00); 	//Timer on, 64 prescaler
+  5c:	83 e0       	ldi	r24, 0x03	; 3
+  5e:	83 bf       	out	0x33, r24	; 51
+	OCR0A = TRANSMIT_TIME;		//Match 3ms cycle
+  60:	8d e2       	ldi	r24, 0x2D	; 45
+  62:	86 bf       	out	0x36, r24	; 54
+  	TIMSK0 = _BV(OCIE0A); 	//Enable Match A interrupt
+  64:	84 e0       	ldi	r24, 0x04	; 4
+  66:	89 bf       	out	0x39, r24	; 57
+
+	DDRB = _BV(PB4);		      // enable output on port B, pin 4
+  68:	80 e1       	ldi	r24, 0x10	; 16
+  6a:	87 bb       	out	0x17, r24	; 23
+
+	//clear custom interrupt flag
+	flags = 0x00;
+  6c:	10 92 60 00 	sts	0x0060, r1
+  
+  	sei(); //enable interrupts
+  70:	78 94       	sei
+  72:	ff cf       	rjmp	.-2      	; 0x72 <main+0x1c>
+
+00000074 <_exit>:
+  74:	f8 94       	cli
+
+00000076 <__stop_program>:
+  76:	ff cf       	rjmp	.-2      	; 0x76 <__stop_program>
