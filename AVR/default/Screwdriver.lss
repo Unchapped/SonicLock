@@ -3,38 +3,40 @@ Screwdriver.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .text         00000078  00000000  00000000  00000074  2**1
+  0 .text         0000012a  00000000  00000000  00000094  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  1 .bss          00000001  00800060  00800060  000000ec  2**0
+  1 .data         00000006  00800060  0000012a  000001be  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  2 .bss          00000003  00800066  00800066  000001c4  2**0
                   ALLOC
-  2 .debug_aranges 00000020  00000000  00000000  000000ec  2**0
+  3 .debug_aranges 00000020  00000000  00000000  000001c4  2**0
                   CONTENTS, READONLY, DEBUGGING
-  3 .debug_pubnames 00000034  00000000  00000000  0000010c  2**0
+  4 .debug_pubnames 0000004f  00000000  00000000  000001e4  2**0
                   CONTENTS, READONLY, DEBUGGING
-  4 .debug_info   000000c6  00000000  00000000  00000140  2**0
+  5 .debug_info   000000f0  00000000  00000000  00000233  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .debug_abbrev 00000096  00000000  00000000  00000206  2**0
+  6 .debug_abbrev 00000098  00000000  00000000  00000323  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_line   000000b2  00000000  00000000  0000029c  2**0
+  7 .debug_line   000000f2  00000000  00000000  000003bb  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_frame  00000030  00000000  00000000  00000350  2**2
+  8 .debug_frame  00000030  00000000  00000000  000004b0  2**2
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_str    000000a2  00000000  00000000  00000380  2**0
+  9 .debug_str    000000a8  00000000  00000000  000004e0  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
 
 00000000 <__vectors>:
    0:	09 c0       	rjmp	.+18     	; 0x14 <__ctors_end>
-   2:	16 c0       	rjmp	.+44     	; 0x30 <__bad_interrupt>
-   4:	15 c0       	rjmp	.+42     	; 0x30 <__bad_interrupt>
-   6:	14 c0       	rjmp	.+40     	; 0x30 <__bad_interrupt>
-   8:	13 c0       	rjmp	.+38     	; 0x30 <__bad_interrupt>
-   a:	12 c0       	rjmp	.+36     	; 0x30 <__bad_interrupt>
-   c:	12 c0       	rjmp	.+36     	; 0x32 <__vector_6>
-   e:	10 c0       	rjmp	.+32     	; 0x30 <__bad_interrupt>
-  10:	0f c0       	rjmp	.+30     	; 0x30 <__bad_interrupt>
-  12:	0e c0       	rjmp	.+28     	; 0x30 <__bad_interrupt>
+   2:	21 c0       	rjmp	.+66     	; 0x46 <__bad_interrupt>
+   4:	20 c0       	rjmp	.+64     	; 0x46 <__bad_interrupt>
+   6:	1f c0       	rjmp	.+62     	; 0x46 <__bad_interrupt>
+   8:	1e c0       	rjmp	.+60     	; 0x46 <__bad_interrupt>
+   a:	1d c0       	rjmp	.+58     	; 0x46 <__bad_interrupt>
+   c:	1d c0       	rjmp	.+58     	; 0x48 <__vector_6>
+   e:	1b c0       	rjmp	.+54     	; 0x46 <__bad_interrupt>
+  10:	1a c0       	rjmp	.+52     	; 0x46 <__bad_interrupt>
+  12:	19 c0       	rjmp	.+50     	; 0x46 <__bad_interrupt>
 
 00000014 <__ctors_end>:
   14:	11 24       	eor	r1, r1
@@ -42,92 +44,217 @@ Disassembly of section .text:
   18:	cf e9       	ldi	r28, 0x9F	; 159
   1a:	cd bf       	out	0x3d, r28	; 61
 
-0000001c <__do_clear_bss>:
+0000001c <__do_copy_data>:
   1c:	10 e0       	ldi	r17, 0x00	; 0
   1e:	a0 e6       	ldi	r26, 0x60	; 96
   20:	b0 e0       	ldi	r27, 0x00	; 0
-  22:	01 c0       	rjmp	.+2      	; 0x26 <.do_clear_bss_start>
+  22:	ea e2       	ldi	r30, 0x2A	; 42
+  24:	f1 e0       	ldi	r31, 0x01	; 1
+  26:	02 c0       	rjmp	.+4      	; 0x2c <.do_copy_data_start>
 
-00000024 <.do_clear_bss_loop>:
-  24:	1d 92       	st	X+, r1
+00000028 <.do_copy_data_loop>:
+  28:	05 90       	lpm	r0, Z+
+  2a:	0d 92       	st	X+, r0
 
-00000026 <.do_clear_bss_start>:
-  26:	a1 36       	cpi	r26, 0x61	; 97
-  28:	b1 07       	cpc	r27, r17
-  2a:	e1 f7       	brne	.-8      	; 0x24 <.do_clear_bss_loop>
-  2c:	14 d0       	rcall	.+40     	; 0x56 <main>
-  2e:	22 c0       	rjmp	.+68     	; 0x74 <_exit>
+0000002c <.do_copy_data_start>:
+  2c:	a6 36       	cpi	r26, 0x66	; 102
+  2e:	b1 07       	cpc	r27, r17
+  30:	d9 f7       	brne	.-10     	; 0x28 <.do_copy_data_loop>
 
-00000030 <__bad_interrupt>:
-  30:	e7 cf       	rjmp	.-50     	; 0x0 <__vectors>
+00000032 <__do_clear_bss>:
+  32:	10 e0       	ldi	r17, 0x00	; 0
+  34:	a6 e6       	ldi	r26, 0x66	; 102
+  36:	b0 e0       	ldi	r27, 0x00	; 0
+  38:	01 c0       	rjmp	.+2      	; 0x3c <.do_clear_bss_start>
 
-00000032 <__vector_6>:
-#define BOOL8 0x80 
+0000003a <.do_clear_bss_loop>:
+  3a:	1d 92       	st	X+, r1
 
-unsigned char flags; 
+0000003c <.do_clear_bss_start>:
+  3c:	a9 36       	cpi	r26, 0x69	; 105
+  3e:	b1 07       	cpc	r27, r17
+  40:	e1 f7       	brne	.-8      	; 0x3a <.do_clear_bss_loop>
+  42:	13 d0       	rcall	.+38     	; 0x6a <main>
+  44:	70 c0       	rjmp	.+224    	; 0x126 <_exit>
+
+00000046 <__bad_interrupt>:
+  46:	dc cf       	rjmp	.-72     	; 0x0 <__vectors>
+
+00000048 <__vector_6>:
+// current transmitted bit index 
+unsigned char index;
+unsigned char bit;
 
 //timer 0 match interrupt
 ISR(TIM0_COMPA_vect){
-  32:	1f 92       	push	r1
-  34:	0f 92       	push	r0
-  36:	0f b6       	in	r0, 0x3f	; 63
-  38:	0f 92       	push	r0
-  3a:	11 24       	eor	r1, r1
-  3c:	8f 93       	push	r24
-  3e:	9f 93       	push	r25
-	PORTB ^= _BV(PB4);
-  40:	88 b3       	in	r24, 0x18	; 24
-  42:	90 e1       	ldi	r25, 0x10	; 16
-  44:	89 27       	eor	r24, r25
-  46:	88 bb       	out	0x18, r24	; 24
-	//flags |= TRANSMIT;
+  48:	1f 92       	push	r1
+  4a:	0f 92       	push	r0
+  4c:	0f b6       	in	r0, 0x3f	; 63
+  4e:	0f 92       	push	r0
+  50:	11 24       	eor	r1, r1
+  52:	8f 93       	push	r24
+	flags |= TRANSMIT;
+  54:	80 91 68 00 	lds	r24, 0x0068
+  58:	81 60       	ori	r24, 0x01	; 1
+  5a:	80 93 68 00 	sts	0x0068, r24
 }
-  48:	9f 91       	pop	r25
-  4a:	8f 91       	pop	r24
-  4c:	0f 90       	pop	r0
-  4e:	0f be       	out	0x3f, r0	; 63
-  50:	0f 90       	pop	r0
-  52:	1f 90       	pop	r1
-  54:	18 95       	reti
+  5e:	8f 91       	pop	r24
+  60:	0f 90       	pop	r0
+  62:	0f be       	out	0x3f, r0	; 63
+  64:	0f 90       	pop	r0
+  66:	1f 90       	pop	r1
+  68:	18 95       	reti
 
-00000056 <main>:
+0000006a <main>:
 
 int main(){
 	/* INIT CODE */
 	cli();
-  56:	f8 94       	cli
+  6a:	f8 94       	cli
 
 	/*Timer 0 init
 	* output should change every 3 ms
 	* that's 112.5 timer cycles at clk/256
 	*/
-  	TCCR0A = _BV(WGM01); 	//Timer 0 set to CTC mode
-  58:	82 e0       	ldi	r24, 0x02	; 2
-  5a:	8f bd       	out	0x2f, r24	; 47
-  	TCCR0B = _BV(CS01) | _BV(CS00); 	//Timer on, 64 prescaler
-  5c:	83 e0       	ldi	r24, 0x03	; 3
-  5e:	83 bf       	out	0x33, r24	; 51
-	OCR0A = TRANSMIT_TIME;		//Match 3ms cycle
-  60:	8d e2       	ldi	r24, 0x2D	; 45
-  62:	86 bf       	out	0x36, r24	; 54
-  	TIMSK0 = _BV(OCIE0A); 	//Enable Match A interrupt
-  64:	84 e0       	ldi	r24, 0x04	; 4
-  66:	89 bf       	out	0x39, r24	; 57
+  	TCCR0A = _BV(WGM01); 			//Timer 0 set to CTC mode
+  6c:	82 e0       	ldi	r24, 0x02	; 2
+  6e:	8f bd       	out	0x2f, r24	; 47
+  	TCCR0B = _BV(CS01) | _BV(CS00); //Timer on, 64 prescaler
+  70:	83 e0       	ldi	r24, 0x03	; 3
+  72:	83 bf       	out	0x33, r24	; 51
+	//TCCR0B = _BV(CS02) | _BV(CS00); //Timer on, 1024 prescaler FOR TESTING
+	OCR0A = TRANSMIT_TIME;			//Match 3ms cycle
+  74:	86 e9       	ldi	r24, 0x96	; 150
+  76:	86 bf       	out	0x36, r24	; 54
+  	TIMSK0 = _BV(OCIE0A); 			//Enable Match A interrupt
+  78:	84 e0       	ldi	r24, 0x04	; 4
+  7a:	89 bf       	out	0x39, r24	; 57
 
-	DDRB = _BV(PB4);		      // enable output on port B, pin 4
-  68:	80 e1       	ldi	r24, 0x10	; 16
-  6a:	87 bb       	out	0x17, r24	; 23
+	DDRB = _BV(PB4);		      	// enable output on port B, pin 4
+  7c:	80 e1       	ldi	r24, 0x10	; 16
+  7e:	87 bb       	out	0x17, r24	; 23
+
+	//TODO: load custom pen codes from EEPROM
 
 	//clear custom interrupt flag
 	flags = 0x00;
-  6c:	10 92 60 00 	sts	0x0060, r1
+  80:	10 92 68 00 	sts	0x0068, r1
+
+	//start transmission at address 0
+	index = 0;
+  84:	10 92 67 00 	sts	0x0067, r1
+	bit = 0x00;
+  88:	10 92 66 00 	sts	0x0066, r1
   
   	sei(); //enable interrupts
-  70:	78 94       	sei
-  72:	ff cf       	rjmp	.-2      	; 0x72 <main+0x1c>
+  8c:	78 94       	sei
+  8e:	20 e0       	ldi	r18, 0x00	; 0
+	/* LOOP */
+	while(1){
+		//let ints do their thing...
 
-00000074 <_exit>:
-  74:	f8 94       	cli
+		//handle the transmit timer interrupt
+		if (flags & TRANSMIT) {
+  90:	80 91 68 00 	lds	r24, 0x0068
+  94:	80 ff       	sbrs	r24, 0
+  96:	fc cf       	rjmp	.-8      	; 0x90 <main+0x26>
+			
+			//increment index
+			index = (index + 1) % 48;
+  98:	82 2f       	mov	r24, r18
+  9a:	90 e0       	ldi	r25, 0x00	; 0
+  9c:	01 96       	adiw	r24, 0x01	; 1
+  9e:	60 e3       	ldi	r22, 0x30	; 48
+  a0:	70 e0       	ldi	r23, 0x00	; 0
+  a2:	1a d0       	rcall	.+52     	; 0xd8 <__divmodhi4>
+  a4:	28 2f       	mov	r18, r24
 
-00000076 <__stop_program>:
-  76:	ff cf       	rjmp	.-2      	; 0x76 <__stop_program>
+			if((code[index / 8] << (index % 8)) & 0x80)
+  a6:	e8 2f       	mov	r30, r24
+  a8:	e6 95       	lsr	r30
+  aa:	e6 95       	lsr	r30
+  ac:	e6 95       	lsr	r30
+  ae:	f0 e0       	ldi	r31, 0x00	; 0
+  b0:	e0 5a       	subi	r30, 0xA0	; 160
+  b2:	ff 4f       	sbci	r31, 0xFF	; 255
+  b4:	80 81       	ld	r24, Z
+  b6:	92 2f       	mov	r25, r18
+  b8:	97 70       	andi	r25, 0x07	; 7
+  ba:	01 c0       	rjmp	.+2      	; 0xbe <__stack+0x1f>
+  bc:	88 0f       	add	r24, r24
+  be:	9a 95       	dec	r25
+  c0:	ea f7       	brpl	.-6      	; 0xbc <__stack+0x1d>
+  c2:	87 ff       	sbrs	r24, 7
+  c4:	02 c0       	rjmp	.+4      	; 0xca <__stack+0x2b>
+				PORTB |= _BV(PB4);
+  c6:	c4 9a       	sbi	0x18, 4	; 24
+  c8:	01 c0       	rjmp	.+2      	; 0xcc <__stack+0x2d>
+			else
+				PORTB &= ~_BV(PB4);
+  ca:	c4 98       	cbi	0x18, 4	; 24
+
+			//clear the interrupt flag...
+			flags &= ~TRANSMIT;
+  cc:	80 91 68 00 	lds	r24, 0x0068
+  d0:	8e 7f       	andi	r24, 0xFE	; 254
+  d2:	80 93 68 00 	sts	0x0068, r24
+  d6:	dc cf       	rjmp	.-72     	; 0x90 <main+0x26>
+
+000000d8 <__divmodhi4>:
+  d8:	97 fb       	bst	r25, 7
+  da:	09 2e       	mov	r0, r25
+  dc:	07 26       	eor	r0, r23
+  de:	0a d0       	rcall	.+20     	; 0xf4 <__divmodhi4_neg1>
+  e0:	77 fd       	sbrc	r23, 7
+  e2:	04 d0       	rcall	.+8      	; 0xec <__divmodhi4_neg2>
+  e4:	0c d0       	rcall	.+24     	; 0xfe <__udivmodhi4>
+  e6:	06 d0       	rcall	.+12     	; 0xf4 <__divmodhi4_neg1>
+  e8:	00 20       	and	r0, r0
+  ea:	1a f4       	brpl	.+6      	; 0xf2 <__divmodhi4_exit>
+
+000000ec <__divmodhi4_neg2>:
+  ec:	70 95       	com	r23
+  ee:	61 95       	neg	r22
+  f0:	7f 4f       	sbci	r23, 0xFF	; 255
+
+000000f2 <__divmodhi4_exit>:
+  f2:	08 95       	ret
+
+000000f4 <__divmodhi4_neg1>:
+  f4:	f6 f7       	brtc	.-4      	; 0xf2 <__divmodhi4_exit>
+  f6:	90 95       	com	r25
+  f8:	81 95       	neg	r24
+  fa:	9f 4f       	sbci	r25, 0xFF	; 255
+  fc:	08 95       	ret
+
+000000fe <__udivmodhi4>:
+  fe:	aa 1b       	sub	r26, r26
+ 100:	bb 1b       	sub	r27, r27
+ 102:	51 e1       	ldi	r21, 0x11	; 17
+ 104:	07 c0       	rjmp	.+14     	; 0x114 <__udivmodhi4_ep>
+
+00000106 <__udivmodhi4_loop>:
+ 106:	aa 1f       	adc	r26, r26
+ 108:	bb 1f       	adc	r27, r27
+ 10a:	a6 17       	cp	r26, r22
+ 10c:	b7 07       	cpc	r27, r23
+ 10e:	10 f0       	brcs	.+4      	; 0x114 <__udivmodhi4_ep>
+ 110:	a6 1b       	sub	r26, r22
+ 112:	b7 0b       	sbc	r27, r23
+
+00000114 <__udivmodhi4_ep>:
+ 114:	88 1f       	adc	r24, r24
+ 116:	99 1f       	adc	r25, r25
+ 118:	5a 95       	dec	r21
+ 11a:	a9 f7       	brne	.-22     	; 0x106 <__udivmodhi4_loop>
+ 11c:	80 95       	com	r24
+ 11e:	90 95       	com	r25
+ 120:	bc 01       	movw	r22, r24
+ 122:	cd 01       	movw	r24, r26
+ 124:	08 95       	ret
+
+00000126 <_exit>:
+ 126:	f8 94       	cli
+
+00000128 <__stop_program>:
+ 128:	ff cf       	rjmp	.-2      	; 0x128 <__stop_program>
