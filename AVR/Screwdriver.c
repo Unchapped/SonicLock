@@ -18,8 +18,8 @@
 /* Global Variables */
 
 //TODO: move this to EEPROM for separation of code and data!
-//Packet Format 0xAA sync byte |4 byte secret code | 0x00 clear byte
-unsigned char code[6] = {0xAA, 0xDE, 0xAD, 0xBE, 0xEF, 0x00};
+//Packet Format 0xAA sync byte |4 byte secret code | 0xFF clear byte
+unsigned char code[6] = {0xAA, 0xDE, 0xAD, 0xBE, 0xEF, 0xFF};
 
 /* Custom interrupt flags */
 #define TRANSMIT 0x01 
@@ -35,41 +35,44 @@ volatile unsigned char flags;
 
 // current transmitted bit index 
 unsigned char index;
-unsigned char bit;
+volatile unsigned char nextbit;
 
 //timer 0 match interrupt
 ISR(TIM0_COMPA_vect){
+	//update transmit bit in constant time
+	PORTB = (PORTB & ~_BV(PB4)) | nextbit;
+
+	//set the flag to take care of the logic
 	flags |= TRANSMIT;
 }
 
 int main(){
 	/* INIT CODE */
-	cli();
+	cli(); //disable interrupts
+
+	flags = 0x00; //clear custom interrupt flag
+
+	//TODO: load custom pen codes from EEPROM
+	//need to add init while loop to handle EEPROM interrupts
 
 	/*Timer 0 init
-	* output should change every 3 ms
-	* that's 112.5 timer cycles at clk/256
+	* output should change every 10 ms
+	* that's 150 timer cycles at clk/64
 	*/
   	TCCR0A = _BV(WGM01); 			//Timer 0 set to CTC mode
   	TCCR0B = _BV(CS01) | _BV(CS00); //Timer on, 64 prescaler
 	//TCCR0B = _BV(CS02) | _BV(CS00); //Timer on, 1024 prescaler FOR TESTING
-	OCR0A = TRANSMIT_TIME;			//Match 3ms cycle
+	OCR0A = TRANSMIT_TIME;			//Match 10ms cycle
   	TIMSK0 = _BV(OCIE0A); 			//Enable Match A interrupt
-
+	
+	/* bit transmission setup */
 	DDRB = _BV(PB4);		      	// enable output on port B, pin 4
-
-	//TODO: load custom pen codes from EEPROM
-
-	//clear custom interrupt flag
-	flags = 0x00;
-
-	//start transmission at address 0
-	index = 0;
-	bit = 0x00;
+	index = 0;						//start transmission at address 0
+	nextbit = 0x00;					//clear the next bit variable
   
   	sei(); //enable interrupts
 
-	/* LOOP */
+	/*MAIN LOOP */
 	while(1){
 		//let ints do their thing...
 
@@ -78,11 +81,10 @@ int main(){
 			
 			//increment index
 			index = (index + 1) % 48;
+			nextbit = 0x00;
 
 			if((code[index / 8] << (index % 8)) & 0x80)
-				PORTB |= _BV(PB4);
-			else
-				PORTB &= ~_BV(PB4);
+				nextbit = _BV(PB4);
 
 			//clear the interrupt flag...
 			flags &= ~TRANSMIT;
