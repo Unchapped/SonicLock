@@ -4,7 +4,7 @@
 #define HISTORY_QUEUE_SIZE ( 8 * 6 * 2 )
 #define PACKET_SIZE 6
 
-int notificationLedPin = 5;
+int notificationLedPin = 5; //use the internal Arduino LED
 
 int packetSize = PACKET_SIZE;
 int ledAnode   = 3;
@@ -33,6 +33,7 @@ void setup()
 
   Serial.begin( 9600 );
   Serial.println( "Begin" );
+  Serial.println(F_CPU);
   
   int i;
   for ( i = 0 ; i < HISTORY_QUEUE_SIZE ; i++ ) {

@@ -1,0 +1,287 @@
+
+Screwdriver.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         00000152  00000000  00000000  00000094  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .data         00000008  00800060  00000152  000001e6  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  2 .bss          00000003  00800068  00800068  000001ee  2**0
+                  ALLOC
+  3 .debug_aranges 00000020  00000000  00000000  000001ee  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  4 .debug_pubnames 0000005c  00000000  00000000  0000020e  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .debug_info   00000107  00000000  00000000  0000026a  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_abbrev 0000008e  00000000  00000000  00000371  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_line   00000102  00000000  00000000  000003ff  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_frame  00000030  00000000  00000000  00000504  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_str    000000c3  00000000  00000000  00000534  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	12 c0       	rjmp	.+36     	; 0x26 <__ctors_end>
+   2:	2a c0       	rjmp	.+84     	; 0x58 <__bad_interrupt>
+   4:	29 c0       	rjmp	.+82     	; 0x58 <__bad_interrupt>
+   6:	28 c0       	rjmp	.+80     	; 0x58 <__bad_interrupt>
+   8:	27 c0       	rjmp	.+78     	; 0x58 <__bad_interrupt>
+   a:	26 c0       	rjmp	.+76     	; 0x58 <__bad_interrupt>
+   c:	26 c0       	rjmp	.+76     	; 0x5a <__vector_6>
+   e:	24 c0       	rjmp	.+72     	; 0x58 <__bad_interrupt>
+  10:	23 c0       	rjmp	.+70     	; 0x58 <__bad_interrupt>
+  12:	22 c0       	rjmp	.+68     	; 0x58 <__bad_interrupt>
+  14:	21 c0       	rjmp	.+66     	; 0x58 <__bad_interrupt>
+  16:	20 c0       	rjmp	.+64     	; 0x58 <__bad_interrupt>
+  18:	1f c0       	rjmp	.+62     	; 0x58 <__bad_interrupt>
+  1a:	1e c0       	rjmp	.+60     	; 0x58 <__bad_interrupt>
+  1c:	1d c0       	rjmp	.+58     	; 0x58 <__bad_interrupt>
+  1e:	1c c0       	rjmp	.+56     	; 0x58 <__bad_interrupt>
+  20:	1b c0       	rjmp	.+54     	; 0x58 <__bad_interrupt>
+  22:	1a c0       	rjmp	.+52     	; 0x58 <__bad_interrupt>
+  24:	19 c0       	rjmp	.+50     	; 0x58 <__bad_interrupt>
+
+00000026 <__ctors_end>:
+  26:	11 24       	eor	r1, r1
+  28:	1f be       	out	0x3f, r1	; 63
+  2a:	cf ed       	ldi	r28, 0xDF	; 223
+  2c:	cd bf       	out	0x3d, r28	; 61
+
+0000002e <__do_copy_data>:
+  2e:	10 e0       	ldi	r17, 0x00	; 0
+  30:	a0 e6       	ldi	r26, 0x60	; 96
+  32:	b0 e0       	ldi	r27, 0x00	; 0
+  34:	e2 e5       	ldi	r30, 0x52	; 82
+  36:	f1 e0       	ldi	r31, 0x01	; 1
+  38:	02 c0       	rjmp	.+4      	; 0x3e <.do_copy_data_start>
+
+0000003a <.do_copy_data_loop>:
+  3a:	05 90       	lpm	r0, Z+
+  3c:	0d 92       	st	X+, r0
+
+0000003e <.do_copy_data_start>:
+  3e:	a8 36       	cpi	r26, 0x68	; 104
+  40:	b1 07       	cpc	r27, r17
+  42:	d9 f7       	brne	.-10     	; 0x3a <.do_copy_data_loop>
+
+00000044 <__do_clear_bss>:
+  44:	10 e0       	ldi	r17, 0x00	; 0
+  46:	a8 e6       	ldi	r26, 0x68	; 104
+  48:	b0 e0       	ldi	r27, 0x00	; 0
+  4a:	01 c0       	rjmp	.+2      	; 0x4e <.do_clear_bss_start>
+
+0000004c <.do_clear_bss_loop>:
+  4c:	1d 92       	st	X+, r1
+
+0000004e <.do_clear_bss_start>:
+  4e:	ab 36       	cpi	r26, 0x6B	; 107
+  50:	b1 07       	cpc	r27, r17
+  52:	e1 f7       	brne	.-8      	; 0x4c <.do_clear_bss_loop>
+  54:	1d d0       	rcall	.+58     	; 0x90 <main>
+  56:	7b c0       	rjmp	.+246    	; 0x14e <_exit>
+
+00000058 <__bad_interrupt>:
+  58:	d3 cf       	rjmp	.-90     	; 0x0 <__vectors>
+
+0000005a <__vector_6>:
+// current transmitted bit index 
+unsigned char index;
+volatile unsigned char nextbit;
+
+//timer 0 overflow interrupt
+ISR(TIMER0_OVF_vect){
+  5a:	1f 92       	push	r1
+  5c:	0f 92       	push	r0
+  5e:	0f b6       	in	r0, 0x3f	; 63
+  60:	0f 92       	push	r0
+  62:	11 24       	eor	r1, r1
+  64:	8f 93       	push	r24
+  66:	9f 93       	push	r25
+	//reset counter
+	TCNT0 = tcnt;
+  68:	86 e0       	ldi	r24, 0x06	; 6
+  6a:	82 bf       	out	0x32, r24	; 50
+
+	//update transmit bit in constant time
+	LED_OUT_PORT = (LED_OUT_PORT & ~LED_OUT_PIN) | nextbit;
+  6c:	82 b3       	in	r24, 0x12	; 18
+  6e:	90 91 68 00 	lds	r25, 0x0068
+  72:	8f 7b       	andi	r24, 0xBF	; 191
+  74:	89 2b       	or	r24, r25
+  76:	82 bb       	out	0x12, r24	; 18
+
+	//set the flag to take care of the logic
+	flags |= TRANSMIT;
+  78:	80 91 6a 00 	lds	r24, 0x006A
+  7c:	81 60       	ori	r24, 0x01	; 1
+  7e:	80 93 6a 00 	sts	0x006A, r24
+}
+  82:	9f 91       	pop	r25
+  84:	8f 91       	pop	r24
+  86:	0f 90       	pop	r0
+  88:	0f be       	out	0x3f, r0	; 63
+  8a:	0f 90       	pop	r0
+  8c:	1f 90       	pop	r1
+  8e:	18 95       	reti
+
+00000090 <main>:
+
+int main(){
+	/* INIT CODE */
+	cli(); //disable interrupts
+  90:	f8 94       	cli
+
+	flags = 0x00; //clear custom interrupt flag
+  92:	10 92 6a 00 	sts	0x006A, r1
+	*Timer 0 init
+	* This timer triggers the Output LED to move on to the next bit
+	* Luckily this configuration is the same for all supported devices
+	*/
+	//leave Timer 0 in normal mode
+	TCCR0A = 0x00;
+  96:	10 be       	out	0x30, r1	; 48
+	//TCCR0A = _BV(WGM01); 	//Timer 0 set to CTC mode
+  	TCCR0B = _BV(CS01) | _BV(CS00); //Timer on, 64 prescaler
+  98:	83 e0       	ldi	r24, 0x03	; 3
+  9a:	83 bf       	out	0x33, r24	; 51
+	//TCCR0B = _BV(CS02) | _BV(CS00); //Timer on, 1024 prescaler FOR TESTING
+	//OCR0A = TRANSMIT_TIME;			//Match 10ms cycle
+	TIMSK |= _BV(TOIE0); 			//Enable Overflow interrupt
+  9c:	89 b7       	in	r24, 0x39	; 57
+  9e:	82 60       	ori	r24, 0x02	; 2
+  a0:	89 bf       	out	0x39, r24	; 57
+
+	
+	/* bit transmission setup */
+	LED_OUT_DIR |= LED_OUT_PIN;		// enable output on port B, pin 4
+  a2:	8e 9a       	sbi	0x11, 6	; 17
+	index = 0;						//start transmission at address 0
+  a4:	10 92 69 00 	sts	0x0069, r1
+	nextbit = 0x00;					//clear the next bit variable
+  a8:	10 92 68 00 	sts	0x0068, r1
+  
+  	sei(); //enable interrupts
+  ac:	78 94       	sei
+  ae:	30 e0       	ldi	r19, 0x00	; 0
+			//increment index
+			index = (index + 1) % (PACKET_LENGTH * 8);
+			nextbit = 0x00;
+
+			if((code[index / 8] >> (index % 8)) & 0x01)
+				nextbit = LED_OUT_PIN;
+  b0:	40 e4       	ldi	r20, 0x40	; 64
+	/*MAIN LOOP */
+	while(1){
+		//let ints do their thing...
+
+		//handle the transmit timer interrupt
+		if (flags & TRANSMIT) {
+  b2:	80 91 6a 00 	lds	r24, 0x006A
+  b6:	80 ff       	sbrs	r24, 0
+  b8:	fc cf       	rjmp	.-8      	; 0xb2 <main+0x22>
+			
+			//increment index
+			index = (index + 1) % (PACKET_LENGTH * 8);
+  ba:	83 2f       	mov	r24, r19
+  bc:	90 e0       	ldi	r25, 0x00	; 0
+  be:	01 96       	adiw	r24, 0x01	; 1
+  c0:	60 e3       	ldi	r22, 0x30	; 48
+  c2:	70 e0       	ldi	r23, 0x00	; 0
+  c4:	1d d0       	rcall	.+58     	; 0x100 <__divmodhi4>
+  c6:	38 2f       	mov	r19, r24
+			nextbit = 0x00;
+  c8:	10 92 68 00 	sts	0x0068, r1
+
+			if((code[index / 8] >> (index % 8)) & 0x01)
+  cc:	e8 2f       	mov	r30, r24
+  ce:	e6 95       	lsr	r30
+  d0:	e6 95       	lsr	r30
+  d2:	e6 95       	lsr	r30
+  d4:	f0 e0       	ldi	r31, 0x00	; 0
+  d6:	e0 5a       	subi	r30, 0xA0	; 160
+  d8:	ff 4f       	sbci	r31, 0xFF	; 255
+  da:	80 81       	ld	r24, Z
+  dc:	90 e0       	ldi	r25, 0x00	; 0
+  de:	23 2f       	mov	r18, r19
+  e0:	27 70       	andi	r18, 0x07	; 7
+  e2:	02 c0       	rjmp	.+4      	; 0xe8 <__stack+0x9>
+  e4:	95 95       	asr	r25
+  e6:	87 95       	ror	r24
+  e8:	2a 95       	dec	r18
+  ea:	e2 f7       	brpl	.-8      	; 0xe4 <__stack+0x5>
+  ec:	80 ff       	sbrs	r24, 0
+  ee:	02 c0       	rjmp	.+4      	; 0xf4 <__stack+0x15>
+				nextbit = LED_OUT_PIN;
+  f0:	40 93 68 00 	sts	0x0068, r20
+
+			//clear the interrupt flag...
+			flags &= ~TRANSMIT;
+  f4:	80 91 6a 00 	lds	r24, 0x006A
+  f8:	8e 7f       	andi	r24, 0xFE	; 254
+  fa:	80 93 6a 00 	sts	0x006A, r24
+  fe:	d9 cf       	rjmp	.-78     	; 0xb2 <main+0x22>
+
+00000100 <__divmodhi4>:
+ 100:	97 fb       	bst	r25, 7
+ 102:	09 2e       	mov	r0, r25
+ 104:	07 26       	eor	r0, r23
+ 106:	0a d0       	rcall	.+20     	; 0x11c <__divmodhi4_neg1>
+ 108:	77 fd       	sbrc	r23, 7
+ 10a:	04 d0       	rcall	.+8      	; 0x114 <__divmodhi4_neg2>
+ 10c:	0c d0       	rcall	.+24     	; 0x126 <__udivmodhi4>
+ 10e:	06 d0       	rcall	.+12     	; 0x11c <__divmodhi4_neg1>
+ 110:	00 20       	and	r0, r0
+ 112:	1a f4       	brpl	.+6      	; 0x11a <__divmodhi4_exit>
+
+00000114 <__divmodhi4_neg2>:
+ 114:	70 95       	com	r23
+ 116:	61 95       	neg	r22
+ 118:	7f 4f       	sbci	r23, 0xFF	; 255
+
+0000011a <__divmodhi4_exit>:
+ 11a:	08 95       	ret
+
+0000011c <__divmodhi4_neg1>:
+ 11c:	f6 f7       	brtc	.-4      	; 0x11a <__divmodhi4_exit>
+ 11e:	90 95       	com	r25
+ 120:	81 95       	neg	r24
+ 122:	9f 4f       	sbci	r25, 0xFF	; 255
+ 124:	08 95       	ret
+
+00000126 <__udivmodhi4>:
+ 126:	aa 1b       	sub	r26, r26
+ 128:	bb 1b       	sub	r27, r27
+ 12a:	51 e1       	ldi	r21, 0x11	; 17
+ 12c:	07 c0       	rjmp	.+14     	; 0x13c <__udivmodhi4_ep>
+
+0000012e <__udivmodhi4_loop>:
+ 12e:	aa 1f       	adc	r26, r26
+ 130:	bb 1f       	adc	r27, r27
+ 132:	a6 17       	cp	r26, r22
+ 134:	b7 07       	cpc	r27, r23
+ 136:	10 f0       	brcs	.+4      	; 0x13c <__udivmodhi4_ep>
+ 138:	a6 1b       	sub	r26, r22
+ 13a:	b7 0b       	sbc	r27, r23
+
+0000013c <__udivmodhi4_ep>:
+ 13c:	88 1f       	adc	r24, r24
+ 13e:	99 1f       	adc	r25, r25
+ 140:	5a 95       	dec	r21
+ 142:	a9 f7       	brne	.-22     	; 0x12e <__udivmodhi4_loop>
+ 144:	80 95       	com	r24
+ 146:	90 95       	com	r25
+ 148:	bc 01       	movw	r22, r24
+ 14a:	cd 01       	movw	r24, r26
+ 14c:	08 95       	ret
+
+0000014e <_exit>:
+ 14e:	f8 94       	cli
+
+00000150 <__stop_program>:
+ 150:	ff cf       	rjmp	.-2      	; 0x150 <__stop_program>
