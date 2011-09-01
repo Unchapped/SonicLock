@@ -3,7 +3,7 @@ Archive member included because of file (symbol)
 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr25\libgcc.a(_divmodhi4.o)
                               Screwdriver.o (__divmodhi4)
 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr25\libgcc.a(_exit.o)
-                              c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr25/crttn2313.o (exit)
+                              c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr25/crttn24.o (exit)
 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr25\libgcc.a(_copy_data.o)
                               Screwdriver.o (__do_copy_data)
 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr25\libgcc.a(_clear_bss.o)
@@ -31,7 +31,7 @@ signature        0x00840000         0x00000400         rw !x
 
 Linker script and memory map
 
-LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr25/crttn2313.o
+LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr25/crttn24.o
 LOAD Screwdriver.o
 LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr25\libgcc.a
 LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr25\libc.a
@@ -127,48 +127,48 @@ LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr25\libgcc.a
 .rela.plt
  *(.rela.plt)
 
-.text           0x00000000      0x152
+.text           0x00000000      0x14e
  *(.vectors)
- .vectors       0x00000000       0x26 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr25/crttn2313.o
+ .vectors       0x00000000       0x22 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr25/crttn24.o
                 0x00000000                __vectors
                 0x00000000                __vector_default
  *(.vectors)
  *(.progmem.gcc*)
  *(.progmem*)
-                0x00000026                . = ALIGN (0x2)
-                0x00000026                __trampolines_start = .
+                0x00000022                . = ALIGN (0x2)
+                0x00000022                __trampolines_start = .
  *(.trampolines)
- .trampolines   0x00000026        0x0 linker stubs
+ .trampolines   0x00000022        0x0 linker stubs
  *(.trampolines*)
-                0x00000026                __trampolines_end = .
+                0x00000022                __trampolines_end = .
  *(.jumptables)
  *(.jumptables*)
  *(.lowtext)
  *(.lowtext*)
-                0x00000026                __ctors_start = .
+                0x00000022                __ctors_start = .
  *(.ctors)
-                0x00000026                __ctors_end = .
-                0x00000026                __dtors_start = .
+                0x00000022                __ctors_end = .
+                0x00000022                __dtors_start = .
  *(.dtors)
-                0x00000026                __dtors_end = .
+                0x00000022                __dtors_end = .
  SORT(*)(.ctors)
  SORT(*)(.dtors)
  *(.init0)
- .init0         0x00000026        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr25/crttn2313.o
-                0x00000026                __init
+ .init0         0x00000022        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr25/crttn24.o
+                0x00000022                __init
  *(.init0)
  *(.init1)
  *(.init1)
  *(.init2)
- .init2         0x00000026        0x8 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr25/crttn2313.o
+ .init2         0x00000022        0x8 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr25/crttn24.o
  *(.init2)
  *(.init3)
  *(.init3)
  *(.init4)
- .init4         0x0000002e       0x16 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr25\libgcc.a(_copy_data.o)
-                0x0000002e                __do_copy_data
- .init4         0x00000044       0x10 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr25\libgcc.a(_clear_bss.o)
-                0x00000044                __do_clear_bss
+ .init4         0x0000002a       0x16 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr25\libgcc.a(_copy_data.o)
+                0x0000002a                __do_copy_data
+ .init4         0x00000040       0x10 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr25\libgcc.a(_clear_bss.o)
+                0x00000040                __do_clear_bss
  *(.init4)
  *(.init5)
  *(.init5)
@@ -179,51 +179,49 @@ LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr25\libgcc.a
  *(.init8)
  *(.init8)
  *(.init9)
- .init9         0x00000054        0x4 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr25/crttn2313.o
+ .init9         0x00000050        0x4 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr25/crttn24.o
  *(.init9)
  *(.text)
- .text          0x00000058        0x2 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr25/crttn2313.o
-                0x00000058                __vector_1
-                0x00000058                __vector_12
-                0x00000058                __bad_interrupt
-                0x00000058                __vector_3
-                0x00000058                __vector_11
-                0x00000058                __vector_13
-                0x00000058                __vector_17
-                0x00000058                __vector_7
-                0x00000058                __vector_5
-                0x00000058                __vector_4
-                0x00000058                __vector_9
-                0x00000058                __vector_2
-                0x00000058                __vector_15
-                0x00000058                __vector_8
-                0x00000058                __vector_14
-                0x00000058                __vector_10
-                0x00000058                __vector_16
-                0x00000058                __vector_18
- .text          0x0000005a       0xa6 Screwdriver.o
-                0x0000005a                __vector_6
-                0x00000090                main
- .text          0x00000100        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr25\libgcc.a(_divmodhi4.o)
- .text          0x00000100        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr25\libgcc.a(_exit.o)
- .text          0x00000100        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr25\libgcc.a(_copy_data.o)
- .text          0x00000100        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr25\libgcc.a(_clear_bss.o)
- .text          0x00000100        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr25\libgcc.a(_udivmodhi4.o)
-                0x00000100                . = ALIGN (0x2)
+ .text          0x00000054        0x2 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr25/crttn24.o
+                0x00000054                __vector_1
+                0x00000054                __vector_12
+                0x00000054                __bad_interrupt
+                0x00000054                __vector_6
+                0x00000054                __vector_3
+                0x00000054                __vector_13
+                0x00000054                __vector_7
+                0x00000054                __vector_5
+                0x00000054                __vector_4
+                0x00000054                __vector_9
+                0x00000054                __vector_2
+                0x00000054                __vector_15
+                0x00000054                __vector_8
+                0x00000054                __vector_14
+                0x00000054                __vector_10
+                0x00000054                __vector_16
+ .text          0x00000056       0xa6 Screwdriver.o
+                0x00000056                __vector_11
+                0x0000008c                main
+ .text          0x000000fc        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr25\libgcc.a(_divmodhi4.o)
+ .text          0x000000fc        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr25\libgcc.a(_exit.o)
+ .text          0x000000fc        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr25\libgcc.a(_copy_data.o)
+ .text          0x000000fc        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr25\libgcc.a(_clear_bss.o)
+ .text          0x000000fc        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr25\libgcc.a(_udivmodhi4.o)
+                0x000000fc                . = ALIGN (0x2)
  *(.text.*)
- .text.libgcc   0x00000100       0x26 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr25\libgcc.a(_divmodhi4.o)
-                0x00000100                __divmodhi4
-                0x00000100                _div
- .text.libgcc   0x00000126        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr25\libgcc.a(_exit.o)
- .text.libgcc   0x00000126        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr25\libgcc.a(_copy_data.o)
- .text.libgcc   0x00000126        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr25\libgcc.a(_clear_bss.o)
- .text.libgcc   0x00000126       0x28 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr25\libgcc.a(_udivmodhi4.o)
-                0x00000126                __udivmodhi4
-                0x0000014e                . = ALIGN (0x2)
+ .text.libgcc   0x000000fc       0x26 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr25\libgcc.a(_divmodhi4.o)
+                0x000000fc                __divmodhi4
+                0x000000fc                _div
+ .text.libgcc   0x00000122        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr25\libgcc.a(_exit.o)
+ .text.libgcc   0x00000122        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr25\libgcc.a(_copy_data.o)
+ .text.libgcc   0x00000122        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr25\libgcc.a(_clear_bss.o)
+ .text.libgcc   0x00000122       0x28 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr25\libgcc.a(_udivmodhi4.o)
+                0x00000122                __udivmodhi4
+                0x0000014a                . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x0000014e        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr25\libgcc.a(_exit.o)
-                0x0000014e                exit
-                0x0000014e                _exit
+ .fini9         0x0000014a        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr25\libgcc.a(_exit.o)
+                0x0000014a                exit
+                0x0000014a                _exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
@@ -242,14 +240,14 @@ LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr25\libgcc.a
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x0000014e        0x4 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr25\libgcc.a(_exit.o)
+ .fini0         0x0000014a        0x4 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr25\libgcc.a(_exit.o)
  *(.fini0)
-                0x00000152                _etext = .
+                0x0000014e                _etext = .
 
-.data           0x00800060        0x8 load address 0x00000152
+.data           0x00800060        0x8 load address 0x0000014e
                 0x00800060                PROVIDE (__data_start, .)
  *(.data)
- .data          0x00800060        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr25/crttn2313.o
+ .data          0x00800060        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr25/crttn24.o
  .data          0x00800060        0x7 Screwdriver.o
                 0x00800066                tcnt
                 0x00800060                code
@@ -270,7 +268,7 @@ LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr25\libgcc.a
 .bss            0x00800068        0x3
                 0x00800068                PROVIDE (__bss_start, .)
  *(.bss)
- .bss           0x00800068        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr25/crttn2313.o
+ .bss           0x00800068        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr25/crttn24.o
  .bss           0x00800068        0x0 Screwdriver.o
  .bss           0x00800068        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr25\libgcc.a(_divmodhi4.o)
  .bss           0x00800068        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr25\libgcc.a(_exit.o)
@@ -284,8 +282,8 @@ LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr25\libgcc.a
                 0x00800069                index
                 0x0080006a                flags
                 0x0080006b                PROVIDE (__bss_end, .)
-                0x00000152                __data_load_start = LOADADDR (.data)
-                0x0000015a                __data_load_end = (__data_load_start + SIZEOF (.data))
+                0x0000014e                __data_load_start = LOADADDR (.data)
+                0x00000156                __data_load_end = (__data_load_start + SIZEOF (.data))
 
 .noinit         0x0080006b        0x0
                 0x0080006b                PROVIDE (__noinit_start, .)
@@ -349,10 +347,10 @@ LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr25\libgcc.a
                 0x00000000       0x20 Screwdriver.o
 
 .debug_pubnames
-                0x00000000       0x5c
+                0x00000000       0x5d
  *(.debug_pubnames)
  .debug_pubnames
-                0x00000000       0x5c Screwdriver.o
+                0x00000000       0x5d Screwdriver.o
 
 .debug_info     0x00000000      0x107
  *(.debug_info)
@@ -371,10 +369,10 @@ LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr25\libgcc.a
  *(.debug_frame)
  .debug_frame   0x00000000       0x30 Screwdriver.o
 
-.debug_str      0x00000000       0xc3
+.debug_str      0x00000000       0xb7
  *(.debug_str)
- .debug_str     0x00000000       0xc3 Screwdriver.o
-                                 0xfc (size before relaxing)
+ .debug_str     0x00000000       0xb7 Screwdriver.o
+                                 0xf0 (size before relaxing)
 
 .debug_loc
  *(.debug_loc)

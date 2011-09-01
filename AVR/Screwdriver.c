@@ -37,9 +37,20 @@
 #	define TIMSK TIMSK0 //don't know why this register is named differently
 #	define TIMER0_OVF_vect TIM0_OVF_vect //again, this is stupid
 //================================ATTINY24 defs
-//#elif defined (__AVR_ATtiny24__)
-//#	define TIMSK TIMSK0 //don't know why this register is named differently
-//#	define	TIM0_COMPA_vect TIMER0_COMPA_vect
+#elif defined (__AVR_ATtiny24__)
+
+//LED output pin PA0
+#	define LED_OUT_PORT PORTA
+#	define LED_OUT_DIR DDRA
+#	define LED_OUT_PIN _BV(PA0)
+
+//use 10 MHz external Oscillator
+#	define TIMER_CYCLES_SECOND 15625 	//Timer Cycles per second
+#	define TRANSMIT_TIME 156
+
+//"bugfixes"
+#	define TIMSK TIMSK0 //don't know why this register is named differently
+#	define TIMER0_OVF_vect TIM0_OVF_vect //again, this is stupid
 
 //================================ATTINY2313 defs
 #elif defined (__AVR_ATtiny2313__)
@@ -66,7 +77,7 @@
 unsigned char code[PACKET_LENGTH] = {0xAA, 0xDE, 0xAD, 0xBE, 0xEF, 0xFF};
 
 //TCNT reset value
-const unsigned char tcnt = 6; //256 - TRANSMIT_TIME;
+const unsigned char tcnt = 256 - TRANSMIT_TIME;
 
 
 /* Custom interrupt flags */
@@ -114,8 +125,8 @@ int main(){
 	//leave Timer 0 in normal mode
 	TCCR0A = 0x00;
 	//TCCR0A = _BV(WGM01); 	//Timer 0 set to CTC mode
-  	TCCR0B = _BV(CS01) | _BV(CS00); //Timer on, 64 prescaler
-	//TCCR0B = _BV(CS02) | _BV(CS00); //Timer on, 1024 prescaler FOR TESTING
+  	//TCCR0B = _BV(CS01) | _BV(CS00); //Timer on, 64 prescaler
+	TCCR0B = _BV(CS02) | _BV(CS00); //Timer on, 1024 prescaler FOR TESTING
 	//OCR0A = TRANSMIT_TIME;			//Match 10ms cycle
 	TIMSK |= _BV(TOIE0); 			//Enable Overflow interrupt
 

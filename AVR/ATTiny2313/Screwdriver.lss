@@ -21,7 +21,7 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING
   8 .debug_frame  00000030  00000000  00000000  00000504  2**2
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_str    000000c3  00000000  00000000  00000534  2**0
+  9 .debug_str    000000b8  00000000  00000000  00000534  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -105,7 +105,7 @@ ISR(TIMER0_OVF_vect){
   66:	9f 93       	push	r25
 	//reset counter
 	TCNT0 = tcnt;
-  68:	86 e0       	ldi	r24, 0x06	; 6
+  68:	84 e6       	ldi	r24, 0x64	; 100
   6a:	82 bf       	out	0x32, r24	; 50
 
 	//update transmit bit in constant time
