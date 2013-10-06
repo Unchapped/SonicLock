@@ -24,6 +24,7 @@ unsigned long microsEnd;
 
 unit_8 currentPacket[PACKET_SIZE];
 unit_8 acceptedPattern[] = { 0xaa , 0xde , 0xad , 0xbe , 0xef , 0xff };
+//unit_8 acceptedPattern[] = { 0xaa , 0xaa , 0xaa , 0xaa , 0xaa , 0xaa };
 
 volatile int interruptFlag = 0;
 
